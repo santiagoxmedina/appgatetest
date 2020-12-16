@@ -17,5 +17,5 @@ public interface ILoginDataSource {
 
     void saveSignInAttempt(String userId,String date, boolean success);
 
-    Result<String> loadDate();
+    Result<String> loadDate(double deviceLatitude,double deviceLongitude);
 }

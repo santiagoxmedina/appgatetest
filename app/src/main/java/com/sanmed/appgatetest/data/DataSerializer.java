@@ -2,7 +2,7 @@ package com.sanmed.appgatetest.data;
 
 import com.google.gson.Gson;
 
-public class DataSerializer {
+public class DataSerializer implements IDataSerializer {
     private Gson gson ;
 
     public DataSerializer(){

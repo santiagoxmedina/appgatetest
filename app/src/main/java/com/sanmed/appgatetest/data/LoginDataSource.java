@@ -7,24 +7,22 @@ import com.sanmed.appgatetest.data.model.SignInUser;
 import com.sanmed.appgatetest.data.model.SignUpUser;
 
 import java.io.IOException;
-import java.util.Calendar;
 import java.util.List;
 
-/**
- * Class that handles authentication w/ login credentials and retrieves user information.
- */
 public class LoginDataSource implements ILoginDataSource {
 
-    private final LocalSecurity mLocalSecurity;
+    private final ISafeStorage mSafeStorage;
+    private final IApiClient mApiClient;
 
     public LoginDataSource(Context context) {
-        mLocalSecurity = new LocalSecurity(context);
+        mSafeStorage = new SafeStorage(context);
+        mApiClient = new ApiClient();
     }
 
     public Result<SignInUser> signIn(String username, String password) {
 
         try {
-            if (mLocalSecurity.loadUser(username, password)) {
+            if (mSafeStorage.loadUser(username, password)) {
                 return new Result.Success<>(new SignInUser("", username));
             } else {
                 return new Result.Error(new Exception("Error Sign In"));
@@ -38,7 +36,7 @@ public class LoginDataSource implements ILoginDataSource {
     @Override
     public Result<SignUpUser> signUp(String username, String password) {
         try {
-            if (mLocalSecurity.saveUser(username, password)) {
+            if (mSafeStorage.isNewUser(username) && mSafeStorage.saveUser(username, password)) {
                 return new Result.Success<>(new SignUpUser(username, password));
             } else {
                 return new Result.Error(new Exception("Error Sign up"));
@@ -52,7 +50,7 @@ public class LoginDataSource implements ILoginDataSource {
     @Override
     public Result<List<SignInAttempt>> getSignInAttempts(String userId) {
         try {
-            List<SignInAttempt> signInAttempts = mLocalSecurity.loadSignInAttempts(userId);
+            List<SignInAttempt> signInAttempts = mSafeStorage.loadSignInAttempts(userId);
             if (signInAttempts!=null) {
                 return new Result.Success<>(signInAttempts);
             } else {
@@ -66,12 +64,17 @@ public class LoginDataSource implements ILoginDataSource {
 
     @Override
     public void saveSignInAttempt(String userId,String date, boolean success) {
-        mLocalSecurity.saveSignInAttempt(userId,date,success);
+        mSafeStorage.saveSignInAttempt(userId,date,success);
     }
 
     @Override
-    public Result<String> loadDate() {
-        return new Result.Success<>(Calendar.getInstance().getTime().toString());
+    public Result<String> loadDate(double deviceLatitude,double deviceLongitude) {
+        try {
+
+            return mApiClient.loadDate(deviceLatitude,deviceLongitude);
+        } catch (IOException e) {
+            return new Result.Error(new IOException("Error load date", e));
+        }
     }
 
     public void logout() {

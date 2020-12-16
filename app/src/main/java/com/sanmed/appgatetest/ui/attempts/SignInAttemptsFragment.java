@@ -32,6 +32,7 @@ public class SignInAttemptsFragment extends Fragment {
                              @Nullable Bundle savedInstanceState) {
         mBinding = DataBindingUtil.inflate(inflater,R.layout.fragment_sign_in_attempts,container,false);
         initViewModel();
+        mBinding.setViewModel(mViewModel);
         mBinding.setLifecycleOwner(getViewLifecycleOwner());
         mBinding.setItemAnimator(new SlideUpItemAnimator());
         return mBinding.getRoot();

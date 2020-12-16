@@ -5,6 +5,9 @@
         <variable
             name="itemAnimator"
             type="androidx.recyclerview.widget.RecyclerView.ItemAnimator" />
+        <variable
+            name="viewModel"
+            type="com.sanmed.appgatetest.ui.attempts.SignInAttemptsViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -26,15 +29,28 @@
             android:layout_marginLeft="@dimen/small_margin"
             android:layout_marginRight="@dimen/small_margin"
             android:text="@string/welcome" />
+        <com.google.android.material.button.MaterialButton
+            android:layout_width="0dp"
+            android:id="@+id/update_button"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:text="@string/update"
+            android:onClick="@{()->viewModel.onUpdateList()}"
+            android:layout_marginRight="@dimen/small_margin"
+            android:layout_marginLeft="@dimen/small_margin"
+            android:layout_marginTop="@dimen/small_margin"
+            app:layout_constraintTop_toBottomOf="@+id/title_text_view"
+            android:layout_height="wrap_content"/>
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/attempts_recycler_view"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:layout_marginLeft="@dimen/small_margin"
             android:layout_marginRight="@dimen/small_margin"
+            android:layout_marginTop="@dimen/small_margin"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/title_text_view"
+            app:layout_constraintTop_toBottomOf="@+id/update_button"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             tools:itemCount="5"

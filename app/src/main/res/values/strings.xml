@@ -10,7 +10,12 @@
     <string name="invalid_username">Not a valid username</string>
     <string name="invalid_password">Password must be >7 characters</string>
     <string name="login_failed">"Login failed"</string>
+    <string name="Sign_up_failed">Sign up failed</string>
     <string name="loading_data_fail">loading data failed</string>
     <string name="success">success</string>
     <string name="fail">fail</string>
+    <string name="update_location_failed">Can\'t load your location</string>
+    <string name="location_permission_failed">Location permission required</string>
+    <string name="load_date_fail">Can\'t load date</string>
+    <string name="update">Update List</string>
 </resources>

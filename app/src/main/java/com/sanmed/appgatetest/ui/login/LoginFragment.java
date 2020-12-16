@@ -1,10 +1,12 @@
 package com.sanmed.appgatetest.ui.login;
 
 import android.os.Bundle;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -18,7 +20,7 @@ import androidx.navigation.Navigation;
 import com.sanmed.appgatetest.R;
 import com.sanmed.appgatetest.databinding.ViewTwoInputsTwoButtonsBinding;
 
-public class LoginFragment  extends Fragment {
+public class LoginFragment extends Fragment {
 
     private ViewTwoInputsTwoButtonsBinding mDataBinding;
     private LoginViewModel mLoginViewModel;
@@ -26,7 +28,7 @@ public class LoginFragment  extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        mDataBinding = DataBindingUtil.inflate(inflater, R.layout.view_two_inputs_two_buttons,container,false);
+        mDataBinding = DataBindingUtil.inflate(inflater, R.layout.view_two_inputs_two_buttons, container, false);
         mDataBinding.setLifecycleOwner(getViewLifecycleOwner());
         initViewModel();
         mDataBinding.setViewModel(mLoginViewModel.getTwoInputsOneButton());
@@ -42,16 +44,40 @@ public class LoginFragment  extends Fragment {
 
     private void initViewComponents() {
 
-        mLoginViewModel.getSignInResult().observe(getViewLifecycleOwner(),this::onSignInResult);
-        mLoginViewModel.getSignUpResult().observe(getViewLifecycleOwner(),this::onSignUpResult);
-        mLoginViewModel.getUserText().observe(getViewLifecycleOwner(),mLoginViewModel::onUserTextChanged);
-        mLoginViewModel.getPasswordText().observe(getViewLifecycleOwner(),mLoginViewModel::onPasswordTextChanged);
-        mDataBinding.passwordEditText.setOnEditorActionListener((v, actionId, event) -> {
-            if (actionId == EditorInfo.IME_ACTION_DONE) {
-                mLoginViewModel.onSignIn();
-            }
-            return false;
-        });
+        mLoginViewModel.getSignInResult().observe(getViewLifecycleOwner(), this::onSignInResult);
+        mLoginViewModel.getSignUpResult().observe(getViewLifecycleOwner(), this::onSignUpResult);
+        mLoginViewModel.getMessage().observe(getViewLifecycleOwner(), this::onMessageChanged);
+        mLoginViewModel.getUserText().observe(getViewLifecycleOwner(), mLoginViewModel::onUserTextChanged);
+        mLoginViewModel.getPasswordText().observe(getViewLifecycleOwner(), mLoginViewModel::onPasswordTextChanged);
+        mLoginViewModel.getPermissionError().observe(getViewLifecycleOwner(), this::onPermissionError);
+        mDataBinding.editTextPassword2.setOnEditorActionListener(this::onEditText);
+    }
+
+    private boolean onEditText(TextView textView, int actionId, KeyEvent keyEvent) {
+        if (actionId == EditorInfo.IME_ACTION_DONE) {
+            mLoginViewModel.onSignIn();
+        }
+        return false;
+    }
+
+    private void onMessageChanged(String message) {
+        if(message !=null && message.trim().isEmpty()){
+            showMessage(message);
+            mLoginViewModel.onMessageCompleted();
+        }
+    }
+
+    public void onPermissionError(String[] permissions) {
+        if (permissions != null) {
+            requestPermissions(permissions,LoginViewModel.LOCATION_CODE);
+            mLoginViewModel.onPermissionErrorCompleted();
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        mLoginViewModel.onPermissionResult(requestCode,grantResults);
     }
 
     private void initViewModel() {
@@ -89,7 +115,6 @@ public class LoginFragment  extends Fragment {
     }
 
 
-
     private void updateUiWithUserSignIn(SignInUserView model) {
         String welcome = getString(R.string.welcome) + model.getDisplayName();
         Toast.makeText(getContext(), welcome, Toast.LENGTH_LONG).show();
@@ -106,6 +131,9 @@ public class LoginFragment  extends Fragment {
     }
 
     private void showMessage(@StringRes Integer errorString) {
+        Toast.makeText(getContext(), errorString, Toast.LENGTH_SHORT).show();
+    }
+    private void showMessage(String errorString) {
         Toast.makeText(getContext(), errorString, Toast.LENGTH_SHORT).show();
     }
 }

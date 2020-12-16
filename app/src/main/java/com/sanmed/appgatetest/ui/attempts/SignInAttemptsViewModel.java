@@ -47,6 +47,10 @@ public class SignInAttemptsViewModel extends AndroidViewModel {
 
     }
 
+    public void onUpdateList(){
+        updateSignInAttempts();
+    }
+
     public LiveData<SignInAttemptsResult> getSignInAttempts() {
         return listSignInAttemptsViewMutableLiveData;
     }

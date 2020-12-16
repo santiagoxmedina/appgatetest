@@ -13,5 +13,5 @@ public interface ILoginRepository {
     Result<List<SignInAttempt>> getSignInAttempts(String userId);
     void saveSignInAttempt(String userId,String date,boolean success);
 
-    Result<String> loadDate();
+    Result<String> loadDate(double deviceLatitude,double deviceLongitude);
 }
