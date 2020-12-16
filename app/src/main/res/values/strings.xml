@@ -1,0 +1,16 @@
+<resources>
+    <string name="app_name">appgatetest</string>
+    <!-- Strings related to login -->
+    <string name="prompt_email">Email</string>
+    <string name="prompt_password">Password</string>
+    <string name="action_sign_in_short">Sign in</string>
+    <string name="action_sign_up_short">Sign up</string>
+    <string name="welcome">Welcome !</string>
+    <string name="registered">"Registered !"</string>
+    <string name="invalid_username">Not a valid username</string>
+    <string name="invalid_password">Password must be >7 characters</string>
+    <string name="login_failed">"Login failed"</string>
+    <string name="loading_data_fail">loading data failed</string>
+    <string name="success">success</string>
+    <string name="fail">fail</string>
+</resources>

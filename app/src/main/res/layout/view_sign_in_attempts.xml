@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+<data>
+    <variable
+        name="signInAttempts"
+        type="com.sanmed.appgatetest.ui.attempts.SignInAttemptsView" />
+</data>
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_marginTop="@dimen/small_margin"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/date_text_view"
+            android:layout_width="0dp"
+            android:textAppearance="?textAppearanceSubtitle2"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:text="@{signInAttempts.date}"
+            tools:text="17/10/2020"
+            android:layout_height="wrap_content"/>
+
+        <TextView
+            android:layout_width="0dp"
+            android:textAppearance="?textAppearanceSubtitle1"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/date_text_view"
+            tools:text="Success"
+            app:setSuccess="@{signInAttempts.success}"
+            android:textColor="@android:color/holo_green_light"
+            android:layout_height="wrap_content"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>

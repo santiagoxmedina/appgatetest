@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/loginFragment">
+
+    <fragment
+        android:id="@+id/loginFragment"
+        tools:layout="@layout/view_two_inputs_two_buttons"
+        android:name="com.sanmed.appgatetest.ui.login.LoginFragment"
+        android:label="LoginFragment" >
+        <action
+            android:id="@+id/action_loginFragment_to_signInAttemptsFragment"
+            app:destination="@id/signInAttemptsFragment"
+            app:enterAnim="@android:anim/slide_in_left"
+            app:exitAnim="@android:anim/slide_out_right"
+            app:popEnterAnim="@android:anim/slide_in_left"
+            app:popExitAnim="@android:anim/slide_out_right"
+            app:popUpTo="@id/loginFragment"
+            app:popUpToInclusive="false" />
+    </fragment>
+    <fragment
+        android:id="@+id/signInAttemptsFragment"
+        tools:layout="@layout/fragment_sign_in_attempts"
+        android:name="com.sanmed.appgatetest.ui.attempts.SignInAttemptsFragment"
+        android:label="SignInAttemptsFragment" >
+        <argument
+            android:name="userId"
+            app:argType="string" />
+    </fragment>
+</navigation>

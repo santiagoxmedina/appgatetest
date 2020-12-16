@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+        <variable
+            name="itemAnimator"
+            type="androidx.recyclerview.widget.RecyclerView.ItemAnimator" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".ui.attempts.SignInAttemptsFragment">
+
+        <TextView
+            android:id="@+id/title_text_view"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:textAppearance="?textAppearanceHeadline4"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:gravity="center"
+            android:layout_marginTop="@dimen/small_margin"
+            android:layout_marginLeft="@dimen/small_margin"
+            android:layout_marginRight="@dimen/small_margin"
+            android:text="@string/welcome" />
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/attempts_recycler_view"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginLeft="@dimen/small_margin"
+            android:layout_marginRight="@dimen/small_margin"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/title_text_view"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            tools:itemCount="5"
+            app:itemAnimator="@{itemAnimator}"
+            tools:listitem="@layout/view_sign_in_attempts"
+            />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
